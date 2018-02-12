@@ -33,6 +33,9 @@ using UniversalBeacon.Library.Core.Entities;
 using UniversalBeacon.Library.Core.Interop;
 using UniversalBeacon.Library.UWP;
 using UniversalBeaconLibrary;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace WindowsBeacons
 {
@@ -326,6 +329,45 @@ namespace WindowsBeacons
         {
             ClearButton.IsChecked = false;
             _beaconManager?.BluetoothBeacons.Clear();
+        }
+
+        private static Dictionary<string,List<short>> BeaconInformation = 
+            new Dictionary<string, List<short>>();
+
+        private void AddToListButton_Tapped(object sender, RoutedEventArgs e)
+        {
+            foreach (Beacon beacon in _beaconManager?.BluetoothBeacons)
+            {
+                if (BeaconInformation.ContainsKey(beacon.BluetoothAddressAsString))
+                {
+                    BeaconInformation[beacon.BluetoothAddressAsString].Add(beacon.Rssi);
+                }
+                else
+                {
+                    BeaconInformation.Add(beacon.BluetoothAddressAsString,
+                        new List<short>());
+                    BeaconInformation[beacon.BluetoothAddressAsString].Add(beacon.Rssi);
+                }
+            }
+        }
+
+        private void SaveListButton_Tapped(object sender, RoutedEventArgs e)
+        {
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            string BeaconFolder = localFolder.DisplayName + @"\Beacon\";
+
+            if (!Directory.Exists(localFolder.DisplayName))
+                Directory.CreateDirectory(localFolder.DisplayName);
+
+            if (!Directory.Exists(BeaconFolder))
+                Directory.CreateDirectory(BeaconFolder);
+
+
+            foreach (var beacon in BeaconInformation)
+                foreach (var BeaconValue in beacon.Value)
+                    File.AppendAllText(BeaconFolder + beacon.Key + ".txt", BeaconValue + "\r\n");
+
+
         }
 
         private void StatusMsgArea_Tapped(object sender, TappedRoutedEventArgs e)

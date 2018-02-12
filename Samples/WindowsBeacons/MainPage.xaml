@@ -413,6 +413,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <!-- Status -->
                     <TextBlock Grid.Column="0" TextWrapping="Wrap" 
@@ -421,8 +423,27 @@
                     <TextBlock Grid.Column="1"
                        x:Name="StatusOutput" TextWrapping="Wrap" Text="{Binding StatusText}" Style="{StaticResource InfoTextBlockStyle}" 
                        Foreground="{ThemeResource SystemControlHighlightAltAltHighBrush}"/>
+
+                    <ToggleButton x:Name="AddToListButton" Grid.Column="2" 
+                                  TabIndex="4"
+                                  Content="&#xF164;"
+                                  Style="{StaticResource SplitViewTogglePaneButtonStyle}"
+                                  IsChecked="False"
+                                  AutomationProperties.Name="AddToList"
+                                  Tapped="AddToListButton_Tapped"
+                                  ToolTipService.ToolTip="AddToList" />
+                    
+                    <ToggleButton x:Name="SaveListButton" Grid.Column="3" 
+                                  TabIndex="3"
+                                  Content="&#xE74E;"
+                                  Style="{StaticResource SplitViewTogglePaneButtonStyle}"
+                                  IsChecked="False"
+                                  AutomationProperties.Name="SaveList"
+                                  Tapped="SaveListButton_Tapped"
+                                  ToolTipService.ToolTip="SaveList" />
+
                     <!-- Clear -->
-                    <ToggleButton x:Name="ClearButton" Grid.Column="2" 
+                    <ToggleButton x:Name="ClearButton" Grid.Column="4" 
                                   TabIndex="2"
                                   Content="&#xE107;"
                                   Style="{StaticResource SplitViewTogglePaneButtonStyle}"
@@ -432,7 +453,7 @@
                                   ToolTipService.ToolTip="Clear" />
 
                     <!-- Toggle about view -->
-                    <ToggleButton x:Name="TogglePaneButton" Grid.Column="3" 
+                    <ToggleButton x:Name="TogglePaneButton" Grid.Column="5" 
                                   TabIndex="1"
                                   Content="&#xE11B;"
                                   Style="{StaticResource SplitViewTogglePaneButtonStyle}"
